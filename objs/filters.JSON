@@ -1,0 +1,226 @@
+[
+{
+      "nr": 1,
+      "ftype": "pf0",
+      "area": 1,
+      "depth": 0.1,
+      "dens": 100,
+      "ual": 0,
+      "ud": 0,
+      "name": "KB_MERV-04",
+      "desc": "Kowalski Bahnfleth MERV-4. Actual data between 0.01 and 10 microns.",
+      "nspcs": "NA",
+      "npts": 14,
+      "usz": 0,
+      "dat": [
+        {
+          "size": 1e-08,
+          "eff": 0.068
+        },
+        {
+          "size": 1.1e-08,
+          "eff": 0.068
+        },
+        {
+          "size": 6e-08,
+          "eff": 0.023
+        },
+        {
+          "size": 1.8e-07,
+          "eff": 0.009
+        },
+        {
+          "size": 2.8e-07,
+          "eff": 0.008
+        },
+        {
+          "size": 5.2e-07,
+          "eff": 0.012
+        },
+        {
+          "size": 7.4e-07,
+          "eff": 0.02
+        },
+        {
+          "size": 9.2e-07,
+          "eff": 0.027
+        },
+        {
+          "size": 2.5e-06,
+          "eff": 0.095
+        },
+        {
+          "size": 3.6e-06,
+          "eff": 0.131
+        },
+        {
+          "size": 4.9e-06,
+          "eff": 0.16
+        },
+        {
+          "size": 7e-06,
+          "eff": 0.184
+        },
+        {
+          "size": 9.99e-06,
+          "eff": 0.196
+        },
+        {
+          "size": 1e-05,
+          "eff": 0.196
+        }
+      ]
+    },
+    {
+      "nr": 1,
+      "ftype": "pf0",
+      "area": 1,
+      "depth": 0.1,
+      "dens": 100,
+      "ual": 0,
+      "ud": 0,
+      "name": "KB_MERV-08",
+      "desc": "Kowalski Bahnfleth MERV-8. Actual data between 0.01 and 10 microns.",
+      "nspcs": "NA",
+      "npts": 16,
+      "usz": 0,
+      "dat": [
+        {
+          "size": 1e-09,
+          "eff": 0.65
+        },
+        {
+          "size": 1.5e-09,
+          "eff": 0.65
+        },
+        {
+          "size": 3.5e-09,
+          "eff": 0.57
+        },
+        {
+          "size": 1e-08,
+          "eff": 0.421
+        },
+        {
+          "size": 3e-08,
+          "eff": 0.2687
+        },
+        {
+          "size": 1.2e-07,
+          "eff": 0.0933
+        },
+        {
+          "size": 2.4e-07,
+          "eff": 0.0728
+        },
+        {
+          "size": 4.7e-07,
+          "eff": 0.1203
+        },
+        {
+          "size": 6.4e-07,
+          "eff": 0.177
+        },
+        {
+          "size": 8e-07,
+          "eff": 0.2359
+        },
+        {
+          "size": 1.7e-06,
+          "eff": 0.5253
+        },
+        {
+          "size": 2.8e-06,
+          "eff": 0.6887
+        },
+        {
+          "size": 4.1e-06,
+          "eff": 0.7414
+        },
+        {
+          "size": 5e-06,
+          "eff": 0.75
+        },
+        {
+          "size": 9.9e-06,
+          "eff": 0.7526
+        },
+        {
+          "size": 1e-05,
+          "eff": 0.7526
+        }
+      ]
+    },
+    {
+"nr": 1,
+      "ftype": "pf0",
+      "area": 1,
+      "depth": 0.1,
+      "dens": 100,
+      "ual": 0,
+      "ud": 0,
+      "name": "KB_MERV-12",
+      "desc": "Kowalski Bahnfleth MERV-12. Actual data between 0.01 and 10 microns.",
+      "nspcs": "NA",
+      "npts": 14,
+      "usz": 0,
+      "dat": [
+        {
+          "size": 1e-09,
+          "eff": 0.999
+        },
+        {
+          "size": 1.5e-09,
+          "eff": 0.999
+        },
+        {
+          "size": 1e-08,
+          "eff": 0.845
+        },
+        {
+          "size": 8e-08,
+          "eff": 0.353
+        },
+        {
+          "size": 1.8e-07,
+          "eff": 0.228
+        },
+        {
+          "size": 3e-07,
+          "eff": 0.258
+        },
+        {
+          "size": 4.7e-07,
+          "eff": 0.372
+        },
+        {
+          "size": 6.2e-07,
+          "eff": 0.482
+        },
+        {
+          "size": 1e-06,
+          "eff": 0.709
+        },
+        {
+          "size": 1.5e-06,
+          "eff": 0.875
+        },
+        {
+          "size": 2e-06,
+          "eff": 0.946
+        },
+        {
+          "size": 4e-06,
+          "eff": 0.993
+        },
+        {
+          "size": 9.99e-06,
+          "eff": 0.994
+        },
+        {
+          "size": 1e-05,
+          "eff": 0.994
+        }
+      ]
+    }
+]
