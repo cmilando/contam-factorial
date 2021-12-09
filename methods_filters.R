@@ -6,7 +6,6 @@ parse_filters <- function(prj, first_row) {
   n <- as.integer(strsplit(prj[first_row], "!")[[1]][1])
 
   output_list <- vector("list", n)
-  output_i <- 1
   offset <- 1
 
   # then repeat this loop for each filter
@@ -51,7 +50,7 @@ parse_filters <- function(prj, first_row) {
     }
 
     # output as a list
-    output_list[[output_i]] <- unbox_atomic(list(
+    output_list[[i]] <- unbox_atomic(list(
       nr = x_nr,
       ftype = x_ftype,
       area = x_area,
@@ -68,10 +67,12 @@ parse_filters <- function(prj, first_row) {
     ))
 
     # name the element with the filter name
-    names(output_list)[output_i] <- gsub("_", "", x_name)
+    # check for unique
+    names(output_list)[i] <- gsub("_", "", x_name)
+    if(i > 1) 
+      stopifnot(! (names(output_list)[i] %in% names(output_list)[1:(i-1)]))
 
     # advance the iterators
-    output_i <- output_i + 1
     offset <- offset + x_npts
   }
 
@@ -80,41 +81,55 @@ parse_filters <- function(prj, first_row) {
 
 # =============================================================================
 ## TO PRJ FROM JSON
-write_filters <- function(section, base_nr) {
+write_filters <- function(section, obj_to_sub, new_obj_name, new_obj) {
   
-  n_filters <- nrow(section)
-
+  n_filters <- length(section)
+  
   out_vec <- paste(n_filters, "! filter elements:")
-
+  
+  # swap in the new object
+  # make sure to preserve the NR, because that is what is passed around
+  # this will be different for each prj part
+  # has to be a unique name
+  i_to_sub <- which(names(section) == obj_to_sub)
+  base_nr <- section[[i_to_sub]]$nr
+  section[[i_to_sub]] <- NA
+  names(section)[[i_to_sub]] <- NA
+  stopifnot(! (new_obj_name %in% names(section)))
+  
+  section[[i_to_sub]] <- new_obj
+  section[[i_to_sub]]$nr <- base_nr
+  names(section)[[i_to_sub]] <- new_obj_name
+  
+  # print all
   for (i in 1:n_filters) {
-    z <- section[i, ]
-
+    
+    z <- section[[i]]
+    
     out_vec <- c(out_vec, with(z, {
-      paste(base_nr, ftype, area, depth, dens, ual, ud, name)
+      paste(nr, ftype, area, depth, dens, ual, ud, name)
     }))
-
-
+    
     out_vec <- c(out_vec, with(z, {
       paste(desc)
     }))
-
+    
     if (z$ftype == "pf0") {
       out_vec <- c(out_vec, with(z, {
         paste("", npts, usz)
       }))
-
+      
       out_vec <- c(out_vec, with(z, {
-        sapply(1:nrow(dat[[1]]), function(i) {
-          paste(" ", paste0(dat[[1]][i, ], collapse = " "))
+        sapply(1:nrow(dat), function(i) {
+          paste(" ", paste0(dat[i, ], collapse = " "))
         })
       }))
     } else {
       stop("x_ftype is not pf0. other types have not been coded yet")
     }
   }
-
+  
   out_vec <- c(out_vec, "-999")
-
+  
   out_vec
 }
-

@@ -42,18 +42,23 @@ ui <- fluidPage(
   style = "max-width: 700px;",
   h2("CONTAM factorial tool, using JSON", align = "center"),
   helpText("This facilitates single object replacements.",
-           "More complicated replacements would involve passing object refs."),
+           "Windows only.", "See code and objects at",
+           a("Github", href = "https://github.com/cmilando/contam-factorial")),
   br(),
 
   # file upload and output
-  textInput("out_f",
-            "Base file path and name prefix for outputs (e.g., C:\\tmp\\contam)",
+  textInput("out_dir",
+            "File path for outputs (e.g., C:\\tmp\\contam)",
             width = "100%"),
+  textInput("out_prefix",
+            "Output file prefix"),
 
   fileInput("prj", "Choose PRJ to convert to JSON",
           accept = c(".prj"), width = "100%"),
 
   hr(),
+  
+  
   
   # file picker
   tabsetPanel(type = 'tabs',
@@ -72,7 +77,6 @@ ui <- fluidPage(
           get_json_choices("objs/filters.JSON", "filters")
         )
         ),
-      helpText("Edit these in objs\\filters.JSON"),
     ),
     tabPanel("Flow elements")
   ),
@@ -99,17 +103,21 @@ server <- function(input, output, session) {
   
   # validator
   iv <- InputValidator$new()
-  iv$add_rule("out_f", sv_required())
+  iv$add_rule("out_dir", 
+              sv_required(message = "Valid directory required",
+                          test = function(val) {
+                            val != "" & dir.exists(val)
+                          }))
   iv$enable()
   
-  # disable file upload until you have a path
+  # disable file upload until you have a valid path
   observe({
-    if(input$out_f == "") {
-      runjs('$("#prj").parents("span").addClass("disabled")')
-      disable("prj")
-    } else {
+    if(input$out_dir != "" & dir.exists(input$out_dir)) {
       runjs('$("#prj").parents("span").removeClass("disabled")')
       enable("prj")
+    } else {
+      runjs('$("#prj").parents("span").addClass("disabled")')
+      disable("prj")
     }
   })
 
@@ -123,13 +131,14 @@ server <- function(input, output, session) {
       return(NULL)
     }
     
-    prj <- prj_to_json(inFile$datapath, input$out_f)
+    out_f <- file.path(input$out_dir, paste0(input$out_prefix, "_orig.JSON"))
+    
+    prj <- prj_to_json(inFile$datapath, out_f)
 
-    # filter
+    # filters in the current file
     vec <- names(prj[[8]])
     names(vec) <- sapply(prj[[8]], function(x) x$name)
-    updateSelectInput(session, "base_filter",
-                      choices = vec)
+    updateSelectInput(session, "base_filter", choices = vec)
   })
   
   # --------------------------------------
@@ -139,7 +148,6 @@ server <- function(input, output, session) {
     # eventually this will get moved, but just for right now
     header <- c("ContamW 3.3  0", "")
     footer <- c("* end project file.")
-    json_f <- paste0(input$out_f, ".JSON")
 
     # you know its filters
     # obviously expand and change this, but not by much
@@ -147,10 +155,12 @@ server <- function(input, output, session) {
       return(NULL)
     }
     
+    # read filter_json
     filter_json <- read_json("objs/filters.JSON", simplifyVector = T)
 
     # get base_json
-    base_json <- read_json(path = json_f, simplifyVector = T)
+    out_f <- file.path(input$out_dir, paste0(input$out_prefix, "_orig.JSON"))
+    base_json <- read_json(path = out_f, simplifyVector = T)
     
     # show the spinner
     w$show()
@@ -170,7 +180,11 @@ server <- function(input, output, session) {
           base_json_x[[section_i]] <- c(base_json_x[[section_i]], "-999")
         } else {
           #base_nr <- base_json[[8]]
-          base_json_x[[8]] <- write_filters(filter_json[[filter]])
+          base_json_x[[8]] <- 
+            write_filters(section = base_json_x[[8]],
+                          obj_to_sub = input$base_filter,
+                          new_obj_name = filter,
+                          new_obj = filter_json[[filter]])
         }
       }
       
@@ -181,14 +195,18 @@ server <- function(input, output, session) {
         do.call(c, base_json_x),
         footer
       )
-
-      prj_f <- paste0(input$out_f, "_", gsub("_", "", filter), ".prj")
-
-      write.table(prj_full, prj_f,
+      
+      # remove the "_" from the name to reserve
+      prj_f <- paste0(input$out_prefix, "_", filter, ".prj")
+      out_f <- file.path(input$out_dir, prj_f)
+      
+      # write prj
+      write.table(prj_full, out_f,
         quote = F, sep = "|",
         row.names = F, col.names = F
       )
     }
+    
     # hide the spinner
     w$hide()
   })
