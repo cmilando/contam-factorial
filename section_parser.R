@@ -46,7 +46,7 @@ prj_to_json <- function(prj_f, out_f) {
   }
 
   # export JSON
-  write(toJSON(prj_as_list, pretty = T), out_f)
+  write(toJSON(prj_as_list, pretty = T, digits = NA), out_f)
   
   prj_as_list
 }

@@ -108,11 +108,13 @@ server <- function(input, output, session) {
                           test = function(val) {
                             val != "" & dir.exists(val)
                           }))
+  iv$add_rule("out_prefix", sv_required())
   iv$enable()
   
   # disable file upload until you have a valid path
   observe({
-    if(input$out_dir != "" & dir.exists(input$out_dir)) {
+    if(input$out_dir != "" & dir.exists(input$out_dir) &
+       input$out_prefix != "") {
       runjs('$("#prj").parents("span").removeClass("disabled")')
       enable("prj")
     } else {
@@ -205,6 +207,7 @@ server <- function(input, output, session) {
         quote = F, sep = "|",
         row.names = F, col.names = F
       )
+
     }
     
     # hide the spinner
