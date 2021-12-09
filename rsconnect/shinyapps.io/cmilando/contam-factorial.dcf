@@ -1,0 +1,13 @@
+name: contam-factorial
+title: contam-factorial
+username:
+account: cmilando
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5291442
+bundleId: 5345666
+url: https://cmilando.shinyapps.io/contam-factorial/
+when: 1638975140.18566
+lastSyncTime: 1638975140.18566
+asMultiple: FALSE
+asStatic: FALSE

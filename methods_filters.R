@@ -67,9 +67,8 @@ parse_filters <- function(prj, first_row) {
       dat = x_dat
     ))
 
-    # name the element
-    names(output_list)[output_i] <-
-      paste0("filter_", x_nr)
+    # name the element with the filter name
+    names(output_list)[output_i] <- gsub("_", "", x_name)
 
     # advance the iterators
     output_i <- output_i + 1
@@ -82,6 +81,7 @@ parse_filters <- function(prj, first_row) {
 # =============================================================================
 ## TO PRJ FROM JSON
 write_filters <- function(section, base_nr) {
+  
   n_filters <- nrow(section)
 
   out_vec <- paste(n_filters, "! filter elements:")

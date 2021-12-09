@@ -17,8 +17,7 @@ get_json_choices <- function(file_path, file_type) {
 
   if (file_type == "filters") {
     # if you know the type, you know the properties
-    vec <- raw_json$name
-    names(vec) <- raw_json$name
+    vec <- names(raw_json)
     return(vec)
   }
 }

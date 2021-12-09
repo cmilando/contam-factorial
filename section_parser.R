@@ -15,6 +15,7 @@ section_parser <- function(prj, first_row, last_row, header_i) {
 # =============================================================================
 #' read PRJ to JSON
 prj_to_json <- function(prj_f, out_f) {
+  
   section_headers <- read.table(
     file = "contam_sections.txt", sep = "|",
     header = F, stringsAsFactors = F
