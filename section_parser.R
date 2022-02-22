@@ -2,10 +2,26 @@
 # parsing section data
 # expand this with new sections
 # suppose you could bake this into contam_sections as well ...
+# >>> MAKE SURE TO READ contam
 section_parser <- function(prj, first_row, last_row, header_i) {
+  
+  if (header_i == 2) {
+    profiles <- parse_species(prj, first_row)
+    return(profiles)
+  }
   
   if (header_i == 8) {
     profiles <- parse_filters(prj, first_row)
+    return(profiles)
+  }
+  
+  if (header_i == 10) {
+    profiles <- parse_sourcesSinks(prj, first_row)
+    return(profiles)
+  }
+  
+  if (header_i == 11) {
+    profiles <- parse_flow_elements(prj, first_row)
     return(profiles)
   }
 

@@ -1,0 +1,112 @@
+{
+   "PM2.5-AmbOnly-sinkAvg":[
+      {
+         "nr": 1,
+         "spcs": "PM2.5",
+         "ctype": "drs",
+         "name": "PM2.5sink-avg",
+         "desc": "Emmerich 2005 -- 0.4/h",
+         "kd": 0.000111111,
+         "u_k": 2
+      },
+      {
+         "nr": 2,
+         "spcs": "PM2.5",
+         "ctype": "ccf",
+         "name": "PM2.5cook-zero",
+         "desc": "Cooking at 0 mg/min, so ambient can be isolated",
+         "G": 0,
+         "D":  0,
+         "u_G":  17,
+         "u_D": 0
+      }        
+   ],
+   "PM2.5-cookAvg-sinkAvg":[
+      {
+         "nr": 1,
+         "spcs": "PM2.5",
+         "ctype": "drs",
+         "name": "PM2.5sink-avg",
+         "desc": "Emmerich 2005 -- 0.4/h",
+         "kd": 0.000111111,
+         "u_k": 2
+      },
+      {
+         "nr": 2,
+         "spcs": "PM2.5",
+         "ctype": "ccf",
+         "name": "PM2.5cook-avg",
+         "desc": "Cooking at 1.56 mg/min, Burke 2001",
+         "G": 2.6e-08,
+         "D":  0,
+         "u_G":  17,
+         "u_D": 0
+      }        
+   ],
+   "PM2.5-cookAvg-sinkHigh":[
+      {
+         "nr": 1,
+         "spcs": "PM2.5",
+         "ctype": "drs",
+         "name": "PM2.5sink-avg",
+         "desc": "Emmerich 2005 -- 1.2/h",
+         "kd": 0.000333,
+         "u_k": 2
+      },
+      {
+         "nr": 2,
+         "spcs": "PM2.5",
+         "ctype": "ccf",
+         "name": "PM2.5cook-avg",
+         "desc": "Cooking at 1.56 mg/min, Burke 2001",
+         "G": 2.6e-08,
+         "D":  0,
+         "u_G":  17,
+         "u_D": 0
+      }        
+   ],
+   "PM2.5-cookHigh-sinkAvg":[
+      {
+         "nr": 1,
+         "spcs": "PM2.5",
+         "ctype": "drs",
+         "name": "PM2.5sink-avg",
+         "desc": "Emmerich 2005 -- 0.4/h",
+         "kd": 0.000111111,
+         "u_k": 2
+      },
+      {
+         "nr": 2,
+         "spcs": "PM2.5",
+         "ctype": "ccf",
+         "name": "PM2.5cook-high",
+         "desc": "Cooking at 3.12 mg/min, 2x of Burke 2001",
+         "G": 5.2e-08,
+         "D":  0,
+         "u_G":  17,
+         "u_D": 0
+      }        
+   ],
+   "PM2.5-cookHigh-sinkHigh":[
+      {
+         "nr": 1,
+         "spcs": "PM2.5",
+         "ctype": "drs",
+         "name": "PM2.5sink-avg",
+         "desc": "Emmerich 2005 -- 1.2/h",
+         "kd": 0.000333,
+         "u_k": 2
+      },
+      {
+         "nr": 2,
+         "spcs": "PM2.5",
+         "ctype": "ccf",
+         "name": "PM2.5cook-high",
+         "desc": "Cooking at 3.12 mg/min, 2x of Burke 2001",
+         "G": 5.2e-08,
+         "D":  0,
+         "u_G":  17,
+         "u_D": 0
+      }        
+   ]
+}

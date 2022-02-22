@@ -1,0 +1,22 @@
+{
+   "PM2.5":{
+      "nr"    : 1,
+      "sflag" : 1,
+      "ntflag"  : 0,
+      "molwt" : 0,
+      "mdiam"  : 2.5000e-06,
+      "edens"   : 1.0000e+03,
+      "decay": 0.0000e+00,
+      "Dm"   : 2.0000e-05,
+      "ccdef" : 9.9659e-09,
+      "Cp" : 1.0000e+03,
+      "Kuv" : 0.0000e+00,
+      "ucc" : 13,
+      "umd" : 6,
+      "ued" : 0,
+      "udm" : 0,
+      "ucp" : 0,
+      "name":"PM2.5",
+      "desc":"Particulate matter, Diam 2.5 microns"
+   }
+}

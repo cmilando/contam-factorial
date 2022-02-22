@@ -1,0 +1,44 @@
+{
+   "ExtWall-Baseline":{
+      "nr":7,
+      "icon":23,
+      "dtype":"plr_test1",
+      "name":"Wall External",
+      "desc": "Emmerich, Persily. 2014. Underhill - Baseline",
+      "lam":9.01888E-08,
+      "turb":6.75935E-04,
+      "expt":0.65,
+      "dP":75,
+      "Flow":0.012275131,
+      "u_P":0,
+      "u_F":4
+   },
+   "ExtWall-AvgRetro":{
+      "nr":7,
+      "icon":23,
+      "dtype":"plr_test1",
+      "name":"Wall External",
+      "desc": "Emmerich, Persily. 2014. Underhill - Average retrofit",
+      "lam":4.04186E-08,
+      "turb":3.59148E-04,
+      "expt":0.65,
+      "dP":75,
+      "Flow":0.006522208,
+      "u_P":0,
+      "u_F":4
+   },
+   "ExtWall-MaxRetro":{
+      "nr":7,
+      "icon":23,
+      "dtype":"plr_test1",
+      "name":"Wall External",
+      "desc": "Emmerich, Persily. 2014. Underhill - Max retrofit. 189.1-2010",
+      "lam":6.28503E-09,
+      "turb":8.28803E-05,
+      "expt":0.65,
+      "dP":75,
+      "Flow":0.001505125,
+      "u_P":0,
+      "u_F":4
+   }
+}

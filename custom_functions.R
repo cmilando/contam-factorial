@@ -14,10 +14,26 @@ unbox_atomic <- function(raw_list) {
 get_json_choices <- function(file_path, file_type) {
   
   raw_json <- read_json(file_path, simplifyVector = T)
-
-  if (file_type == "filters") {
-    # if you know the type, you know the properties
+  
+  if (file_type == "sources_sinks") {
     vec <- names(raw_json)
     return(vec)
   }
+  
+  if (file_type == "filters") {
+    vec <- names(raw_json)
+    return(vec)
+  } 
+  
+  if (file_type == "flow_elements") {
+    vec <- names(raw_json)
+    return(vec)
+  }
+  
+  if (file_type == "species") {
+    vec <- names(raw_json)
+    return(vec)
+  } 
+  
+  stop()
 }

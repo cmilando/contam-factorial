@@ -1,4 +1,26 @@
 # =============================================================================
+## tabPanel
+filter_tabPanel <-     
+  tabPanel(
+    "Filters",
+    br(),
+    # swap in a new element
+    selectInput("base_filter", "Base filter element:", choices = c()),
+    helpText("This element will be replaced in the replicants below."),
+    tags$div(HTML("<b>Make replicants with the following filters:</b>"),
+             style = "margin-bottom: 5px;"
+    ),
+    tags$div(
+      class = "multicol",
+      checkboxGroupInput("filter_choices",
+                         selected = 1:1e5, # a hack to select all
+                         label = NULL,
+                         get_json_choices("objs/filters.JSON", "filters")
+      )
+    ),
+  )
+
+# =============================================================================
 ## FROM PRJ TO JSON
 parse_filters <- function(prj, first_row) {
 
