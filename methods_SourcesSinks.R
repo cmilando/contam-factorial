@@ -129,8 +129,9 @@ write_sourcesSinks <- function(section, obj_to_sub, new_obj_name, new_obj) {
 
     z <- new_obj[i, ]
     
-    if(i == 1) stopifnot(grepl("sink", tolower(z$name)))
-    if(i == 2) stopifnot(grepl("source", tolower(z$name)))
+    # Could leave these in ... but hard to enforce    
+    # if(i == 1) stopifnot(grepl("sink", tolower(z$name)))
+    # if(i == 2) stopifnot(grepl("source", tolower(z$name)))
 
     if(z$ctype == "drs") {
     

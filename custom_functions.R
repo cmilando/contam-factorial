@@ -35,5 +35,10 @@ get_json_choices <- function(file_path, file_type) {
     return(vec)
   } 
   
+  if (file_type == "schedules") {
+    vec <- names(raw_json)
+    return(vec)
+  } 
+  
   stop()
 }

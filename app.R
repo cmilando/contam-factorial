@@ -17,6 +17,7 @@ source("methods_filters.R")
 source("methods_flowElements.R")
 source("methods_species.R")
 source("methods_SourcesSinks.R")
+source("methods_schedules.R")
 
 # =============================================================================
 ui <- fluidPage(
@@ -91,6 +92,10 @@ ui <- fluidPage(
     # -------------------------
     # SOURCES/SINKS
     sourcesSinks_tabPanel,
+    
+    # -------------------------
+    # SCHEDULES
+    schedules_tabPanel
   
   ),
   hr(),
@@ -182,6 +187,11 @@ server <- function(input, output, session) {
     names(vec) <- paste(names(prj[[10]]), collapse = "-")
     updateSelectInput(session, "base_sourcessink", choices = vec)
     
+    # schedule elements in the current file
+    vec <- names(prj[[4]])
+    names(vec) <- sapply(prj[[4]], function(x) x$name)
+    updateSelectInput(session, "base_schedule", choices = vec)
+    
   })
 
   # --------------------------------------
@@ -198,7 +208,8 @@ server <- function(input, output, session) {
     if (is.null(input$filter_choices) & 
         is.null(input$flow_element_choices) &
         is.null(input$species_choices) &
-        is.null(input$sourcesink_choices)) {
+        is.null(input$sourcesink_choices) &
+        is.null(input$schedule_choices)) {
       return(NULL)
     }
 
@@ -208,6 +219,7 @@ server <- function(input, output, session) {
     flow_elements_json <- read_json("objs/flow_elements.JSON", simplifyVector = T)
     species_json <- read_json("objs/species.JSON", simplifyVector = T)
     source_sink_json <- read_json("objs/sources_sinks.JSON", simplifyVector = T)
+    schedule_json <- read_json("objs/schedules.JSON", simplifyVector = T)
     
     # get base_json
     out_f <- file.path(input$out_dir, paste0(input$out_prefix, "_orig.JSON"))
@@ -224,15 +236,17 @@ server <- function(input, output, session) {
     flow_elements <- input$flow_element_choices
     species <- input$species_choices
     sourcessinks <- input$sourcesink_choices
+    schedules <- input$schedule_choices
     
     all_opts <- expand.grid(filters, 
                             flow_elements, 
                             species,
                             sourcessinks,
+                            schedules,
                             stringsAsFactors = F)
     
     names(all_opts) <- c('filters', 'flow_elements', 'species',
-                         'sourcessinks')
+                         'sourcessinks', 'schedules')
     
     for(j in 1:ncol(all_opts)) {
       all_opts[, j] <- gsub("_", "", all_opts[, j])
@@ -253,6 +267,7 @@ server <- function(input, output, session) {
       flow_element <- all_opts$flow_elements[j]
       species_i    <- all_opts$species[j]
       sourcesink_i <- all_opts$sourcessinks[j]
+      schedule_i   <- all_opts$schedules[j]
       
       for (section_i in 1:length(base_json)) {
         
@@ -265,6 +280,18 @@ server <- function(input, output, session) {
               obj_to_sub = input$base_species,
               new_obj_name = species_i,
               new_obj = species_json[[species_i]]
+            )
+        }
+        
+        # schedules
+        else if (section_i == 4) {
+          
+          base_json_x[[4]] <-
+            write_schedules(
+              section = base_json_x[[4]],
+              obj_to_sub = input$base_schedule,
+              new_obj_name = schedule_i,
+              new_obj = schedule_json[[schedule_i]]
             )
         }
         

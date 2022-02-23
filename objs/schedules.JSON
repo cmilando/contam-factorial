@@ -1,0 +1,64 @@
+{
+   "window-closed":{
+      "nr"   : 4,
+      "npts" : 2,
+      "shap" : 0,
+      "utyp" : 1,
+      "ucnv" : 0,
+      "name" : "Window_sch",
+      "desc" : "Closed window",
+      "dat":[
+         {
+            "time":"00:00:00",
+            "coef": 0
+         },
+         {
+            "time":"24:00:00",
+            "coef": 0
+         }
+      ]
+   },
+   "window-open-allday":{
+      "nr"   : 4,
+      "npts" : 2,
+      "shap" : 0,
+      "utyp" : 1,
+      "ucnv" : 0,
+      "name" : "Window_sch",
+      "desc" : "Open window -- all day",
+      "dat":[
+         {
+            "time":"00:00:00",
+            "coef": 1
+         },
+         {
+            "time":"24:00:00",
+            "coef": 1
+         }
+      ]
+   },
+   "window-open-daytime":{
+      "nr"   : 4,
+      "npts" : 2,
+      "shap" : 0,
+      "utyp" : 1,
+      "ucnv" : 0,
+      "name" : "Window_sch",
+      "desc" : "Open window -- 8a to 6p",
+      "dat":[
+         {
+            "time":"00:00:00",
+            "coef": 0
+         },
+         {
+            "time":"08:00:00",
+            "coef": 1
+         },
+         {
+            "time":"18:00:00",
+            "coef": 0
+         }
+      ]
+   }
+   
+}

@@ -10,6 +10,11 @@ section_parser <- function(prj, first_row, last_row, header_i) {
     return(profiles)
   }
   
+  if (header_i == 4) {
+    profiles <- parse_schedules(prj, first_row)
+    return(profiles)
+  }
+  
   if (header_i == 8) {
     profiles <- parse_filters(prj, first_row)
     return(profiles)

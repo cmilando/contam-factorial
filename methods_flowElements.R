@@ -45,6 +45,7 @@ parse_flow_elements <- function(prj, first_row) {
     x_desc <- prj[first_row + offset]
     offset <- offset + 1
     
+    # -----------------------------------------
     # next line is data
     if (x_dtype %in% c("plr_leak1", "plr_leak2", "plr_leak3")) {
       
@@ -82,7 +83,8 @@ parse_flow_elements <- function(prj, first_row) {
         u_A3 = x_u_A3,
         u_dP = x_u_dP
       ))
-
+    
+    # -----------------------------------------
     } else if(x_dtype == "plr_orfc") {
       
       line_split <- strsplit(trimws(prj[first_row + offset]), " ")[[1]]
@@ -113,7 +115,8 @@ parse_flow_elements <- function(prj, first_row) {
         u_A = x_u_A,
         u_D = x_u_D
       ))
-      
+    
+    # -----------------------------------------  
     } else if (x_dtype == "plr_stair"){
       
       line_split <- strsplit(trimws(prj[first_row + offset]), " ")[[1]]
@@ -145,6 +148,7 @@ parse_flow_elements <- function(prj, first_row) {
         u_D = x_u_D
       ))
     
+    # -----------------------------------------
     } else if(x_dtype == "dor_door") {  
       
       line_split <- strsplit(trimws(prj[first_row + offset]), " ")[[1]]
@@ -178,6 +182,7 @@ parse_flow_elements <- function(prj, first_row) {
         u_W = x_u_W
       ))
     
+    # -----------------------------------------
     } else if(x_dtype == "plr_test1") {  
       
       line_split <- strsplit(trimws(prj[first_row + offset]), " ")[[1]]
@@ -204,9 +209,41 @@ parse_flow_elements <- function(prj, first_row) {
         u_P = x_u_P,
         u_F = x_u_F
       ))  
-        
+    
+    # -----------------------------------------
+    } else if(x_dtype == "dor_pl2") {  
+      
+      line_split <- strsplit(trimws(prj[first_row + offset]), " ")[[1]]
+      x_lam <- as.numeric(line_split[1])
+      x_turb <- as.numeric(line_split[2])
+      x_expt <- as.numeric(line_split[3])
+      x_dH <- as.numeric(line_split[4])
+      x_ht <- as.numeric(line_split[5])
+      x_wd <- as.numeric(line_split[6])
+      x_cd <- as.numeric(line_split[7])
+      x_u_H <- as.numeric(line_split[8])
+      x_u_W <- as.numeric(line_split[9])
+      
+      # output as a list
+      output_list[[i]] <- unbox_atomic(list(
+        nr = x_nr,
+        icon = x_icon,
+        dtype = x_dtype,
+        desc = x_desc,
+        name = x_name,
+        lam = x_lam,
+        turb = x_turb,
+        expt = x_expt,
+        dH = x_dH,
+        ht = x_ht,
+        wd = x_wd,
+        cd = x_cd,
+        u_H = x_u_H,
+        u_W = x_u_W
+      ))  
+          
     } else {
-      stop(paste0("x_dtype=", x_dtype, "has not been coded yet"))
+      stop(paste0("x_dtype=", x_dtype, " has not been coded yet"))
     }
     
     # name the element with the filter name
@@ -292,7 +329,13 @@ write_flow_elements <- function(section, obj_to_sub, new_obj_name, new_obj) {
       out_vec <- c(out_vec, with(z, {
         paste(lam, turb, expt, dP, Flow, u_P, u_F)
       }))
-        
+    
+    } else if(z$dtype == "dor_pl2"){
+      
+      out_vec <- c(out_vec, with(z, {
+        paste(lam, turb, expt, dH, ht, wd, cd, u_H, u_W)
+      }))  
+      
     } else {
       stop("write: x_dtype is not in known types.")
     }
