@@ -60,18 +60,28 @@ ui <- fluidPage(
   textInput("out_dir",
     "File path for outputs (e.g., C:\\tmp\\contam)",
     width = "100%",
-    value = "C:\\contam_test\\db_test\\"
+    value = "D:\\BU_backup\\contam_test\\ASTHMA_database\\0_final"
   ),
   textInput(
     "out_prefix",
     "Output file prefix",
-    value = "dt1"
+    value = "r1x1"
   ),
+  helpText("By default, this is added to the `01_torun` folder"),
   fileInput("prj", "Choose PRJ to convert to JSON",
     accept = c(".prj"), width = "100%"
   ),
+  selectInput("prj_process_opts", selectize = T,
+              "Post-processing files:", 
+              selected = NULL,
+              choices = c(
+                "1x1" = "1x1",
+                "1x2" = "1x2",
+                "1x3" = "1x3",
+                "2x2" = "2x2",
+                "3x2" = "3x2"
+              )),
   hr(),
-
 
   # Individual object replace
   tabsetPanel(
@@ -95,7 +105,12 @@ ui <- fluidPage(
     
     # -------------------------
     # SCHEDULES
-    schedules_tabPanel
+    schedules_tabPanel,
+    
+    # -------------------------
+    # WEATHER and CTM
+    tabPanel("Weather", helpText("Hard-coded for now as BosTYM2.wth")),
+    tabPanel("CTM", helpText("Hard-coded for now for PM2.5 only"))
   
   ),
   hr(),
@@ -121,9 +136,12 @@ server <- function(input, output, session) {
 
   # waiting button
   w <- Waiter$new(id = "create_prj")
-
-  # validator
+  
+  # ---------------------------------------
+  # validators
   iv <- InputValidator$new()
+  
+  # valid out_dir
   iv$add_rule(
     "out_dir",
     sv_required(
@@ -133,9 +151,36 @@ server <- function(input, output, session) {
       }
     )
   )
+  
+  # required out_prefix
   iv$add_rule("out_prefix", sv_required())
+  
+  # validator on post-processing
+  iv$add_rule(
+    "prj_process_opts",
+    sv_required(
+      message = "Valid post-processing opts required",
+      test = function(val) {
+        val != "" & 
+          file.exists(file.path(input$out_dir, "_aux", 
+                                paste0("inputs_", val, ".txt"))) & 
+          
+          file.exists(file.path(input$out_dir, "_aux", 
+                                paste0("simopts_", val, ".txt"))) & 
+          
+          file.exists(file.path(input$out_dir, "_aux", 
+                                paste0("zones_", val, ".txt"))) & 
+          
+          file.exists(file.path(input$out_dir, "_aux", 
+                                paste0("zone_mapping_", val, ".txt"))) 
+      }
+    )
+  )
+  
+  #
   iv$enable()
-
+  
+  # ----------------------------------------
   # disable file upload until you have a valid path
   observe({
     if (input$out_dir != "" & dir.exists(input$out_dir) &
@@ -147,7 +192,7 @@ server <- function(input, output, session) {
       disable("prj")
     }
   })
-
+  
   # --------------------------------------
   # make a new JSON if a file is uploaded
   # >> Update this each time you add a new tabset
@@ -237,16 +282,20 @@ server <- function(input, output, session) {
     species <- input$species_choices
     sourcessinks <- input$sourcesink_choices
     schedules <- input$schedule_choices
+    weather <- "BosTMY2"
+    ctm <- "mactm_pm"
     
     all_opts <- expand.grid(filters, 
                             flow_elements, 
                             species,
                             sourcessinks,
                             schedules,
+                            weather,
+                            ctm,
                             stringsAsFactors = F)
     
     names(all_opts) <- c('filters', 'flow_elements', 'species',
-                         'sourcessinks', 'schedules')
+                         'sourcessinks', 'schedules', 'weather', 'ctm')
     
     for(j in 1:ncol(all_opts)) {
       all_opts[, j] <- gsub("_", "", all_opts[, j])
@@ -350,7 +399,7 @@ server <- function(input, output, session) {
       # make the prj name
       prj_f <- paste0(input$out_prefix, "_",
                       paste0(all_opts[j,], collapse = "_"), ".prj")
-      out_f <- file.path(input$out_dir, prj_f)
+      out_f <- file.path(input$out_dir, "01_torun", prj_f)
 
       # write prj
       write.table(prj_full, out_f,
@@ -359,6 +408,32 @@ server <- function(input, output, session) {
       )
     }
     
+    # write out all_opts as a json
+    all_opts_list <- lapply(1:nrow(all_opts), function(j) {
+      list("opts" = unbox_atomic(as.list(all_opts[j, ])),
+           "copy_in" = unbox_atomic(list(
+             "input" = paste0("inputs_", input$prj_process_opts, ".txt"),
+             "simopts" = paste0("simopts_", input$prj_process_opts, ".txt"),
+             "zones" = paste0("zones_", input$prj_process_opts, ".txt"),
+             "zone_mapping" = 
+               paste0("zone_mapping_", input$prj_process_opts, ".txt"),
+             
+             "weather" = paste0(all_opts$weather[j], ".wth"),
+             "ctm" = paste0(all_opts$ctm[j], ".ctm")
+           )))
+    })
+    
+    names(all_opts_list) <- sapply(1:nrow(all_opts), function(j) {
+      paste0(input$out_prefix, "_", 
+             paste0(all_opts[j,], collapse = "_"))
+    })
+    
+    run_opts_f <- file.path(input$out_dir, "01_torun",
+                            paste0(input$out_prefix, "_run.JSON"))
+    
+    write(toJSON(all_opts_list, pretty = T, digits = NA), run_opts_f)
+    
+    # success
     showModal(modalDialog(
       title = "Success",
       "Files created!"

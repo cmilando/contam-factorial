@@ -2,7 +2,7 @@
 ## tabPanel
 flow_elements_tabPanel <-     
   tabPanel(
-    "Flow elements",
+    "Flow paths",
     br(),
     # swap in a new element
     selectInput("base_flow_element", "Base flow element:", choices = c()),

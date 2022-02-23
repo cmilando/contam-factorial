@@ -2,7 +2,7 @@
 ## tabPanel
 sourcesSinks_tabPanel <-     
   tabPanel(
-    "Sources and Sinks",
+    "Sources/Sinks",
     br(),
     # swap in a new element
     selectInput("base_sourcessink", "Base Source+Sink:", choices = c()),
