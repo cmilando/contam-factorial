@@ -39,7 +39,7 @@
    },
    "window-open-daytime":{
       "nr"   : 4,
-      "npts" : 2,
+      "npts" : 3,
       "shap" : 0,
       "utyp" : 1,
       "ucnv" : 0,

@@ -3,3 +3,13 @@
 .RData
 .Ruserdata
 rsconnect
+.DS_Store
+node_modules
+ElectronShinyApp*
+R-Portable-Mac*
+R-Portable-Win
+*.js
+*.JSON
+*.html
+*.Rproj
+*.ico
