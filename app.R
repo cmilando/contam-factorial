@@ -10,7 +10,6 @@ library(shinyjs)         # greys out directory box when not valid
 library(shinythemes)     # theme
 library(jsonlite)        # reading json
 library(waiter)          # loading wheel over buttons when code runs
-library(spsComps)        # errorCatch
 
 source("custom_functions.R")
 source("section_parser.R")
@@ -59,19 +58,19 @@ ui <- fluidPage(
 
   # file upload and output
   textInput("out_dir",
-    "File path for outputs (e.g., C:\\tmp\\contam)",
+    "File path for outputs",
     width = "100%",
     value = "."
   ),
   textInput(
     "out_prefix",
     "Output file prefix",
+    placeholder = "run1",
     value = ""
   ),
   helpText("By default, this is added to the `01_torun` folder"),
   fileInput("prj", "Choose PRJ to convert to JSON",
-    accept = c(".prj"), width = "100%"
-  ),
+            accept = c(".prj"), width = "100%"),
   selectInput("prj_process_opts", selectize = T,
               "Post-processing files:", 
               selected = NULL,
@@ -181,12 +180,11 @@ server <- function(input, output, session) {
   #
   iv$enable()
   
-  # ----------------------------------------
-  # disable file upload until you have a valid path
+  # --------------------------------------
+  # grey out if dir isn't available
   observe({
-    if (input$out_dir != "" &
-      dir.exists(input$out_dir) &
-      input$out_prefix != "") {
+    if (input$out_dir != "" & dir.exists(input$out_dir) &
+        input$out_prefix != "") {
       runjs('$("#prj").parents("span").removeClass("disabled")')
       enable("prj")
     } else {
@@ -194,6 +192,7 @@ server <- function(input, output, session) {
       disable("prj")
     }
   })
+  
   
   # --------------------------------------
   # make a new JSON if a file is uploaded
@@ -207,7 +206,7 @@ server <- function(input, output, session) {
       if (is.null(inFile)) {
         return(NULL)
       }
-  
+
       out_f <- file.path(input$out_dir, "01_torun", 
                          paste0(input$out_prefix, "_orig.JSON"))
   

@@ -6,6 +6,7 @@ rsconnect
 .DS_Store
 node_modules
 ElectronShinyApp*
+electron-quick-start-win32-x64*
 R-Portable-Mac*
 R-Portable-Win
 *.js

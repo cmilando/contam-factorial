@@ -33,3 +33,9 @@ checkpoints
 need to  make the thing that makes it with every combination across tabsets
 
 #<>> WHAT IF YOU ONLY WANT TO DO ONE TYPE OF SWAP IN??
+
+# notes on making an exe
+* [this link](https://foretodata.com/how-to-make-a-standalone-desktop-application-with-shiny-and-electron-on-windows/) with a few modification
+* in this `R-windows`, have to use the `install_packages_cm.R` command
+* have to delete the electron process from the task manager
+* upadate `gitignore`, and `package.json` with `package-cm`
