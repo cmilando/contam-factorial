@@ -7,7 +7,7 @@
 library(shiny)           # for shiny
 library(shinyvalidate)   # input validation
 library(shinyjs)         # greys out directory box when not valid
-library(shinythemes)     # theme
+library(bslib)           # theme
 library(jsonlite)        # reading json
 library(waiter)          # loading wheel over buttons when code runs
 
@@ -23,7 +23,7 @@ source("methods_schedules.R")
 ui <- fluidPage(
 
   # theme
-  theme = shinytheme("flatly"),
+  theme = bs_theme(bootswatch = "flatly"),
 
   # multi-column checkbox html
   tags$head(
