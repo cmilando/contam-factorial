@@ -105,10 +105,12 @@ ui <- fluidPage(
     schedules_tabPanel,
     
     # -------------------------
-    # WEATHER and CTM
+    # WEATHER and CTM and URBAN/RURAL
+    # to be updated in the future
     tabPanel("Weather", helpText("Hard-coded for now as BosTYM2.wth")),
-    tabPanel("CTM", helpText("Hard-coded for now for PM2.5 only"))
-  
+    tabPanel("CTM", helpText("Hard-coded for now for PM2.5 only")),
+    tabPanel("Urban/Rural", helpText("Hard-coded for now for Boston Urban"))
+    
   ),
   hr(),
 
@@ -174,7 +176,30 @@ server <- function(input, output, session) {
     )
   )
   
-  #
+  # Add some temporary validation for flow_paths and scheduling
+  # while we work those out
+  iv$add_rule(
+    "base_schedule",
+    sv_required(
+      message = "TEMPORARY ERROR: this is fixed to Window_sch",
+      test = function(val) {
+        val != "" & 
+          val == "Windowsch"
+      }
+    )
+  )
+  iv$add_rule(
+    "base_flow_element",
+    sv_required(
+      message = "TEMPORARY ERROR: this is fixed to Wall_External",
+      test = function(val) {
+        val != "" & 
+          val == "WallExternal"
+      }
+    )
+  )
+  
+  # Enable
   iv$enable()
   
   # --------------------------------------
@@ -195,8 +220,9 @@ server <- function(input, output, session) {
   # make a new JSON if a file is uploaded
   # >> Update this each time you add a new tabset
   observe({
-    spsComps::shinyCatch({
     
+    spsComps::shinyCatch({
+
       # kick off every new prj
       inFile <- input$prj
   
@@ -244,6 +270,9 @@ server <- function(input, output, session) {
   # --------------------------------------
   # What happens when you want to create new PRJs
   observeEvent(input$create_prj, {
+    
+    # require validation before conintuing
+    req(iv$is_valid())
     
     spsComps::shinyCatch({
     
