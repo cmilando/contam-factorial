@@ -60,7 +60,7 @@ ui <- fluidPage(
   textInput("out_dir",
     "File path for outputs",
     width = "100%",
-    value = "."
+    value = "K:\\CONTAM_database"
   ),
   textInput(
     "out_prefix",
@@ -282,15 +282,17 @@ server <- function(input, output, session) {
       # using expand grid on input$X_choices
       # check to make sure none have "_"
       # <<<<*****>>>>> (4/X)
-      filters <- input$filter_choices
+      prj           <- input$prj_process_opts
+      filters       <- input$filter_choices
       flow_elements <- input$flow_element_choices
-      species <- input$species_choices
-      sourcessinks <- input$sourcesink_choices
-      schedules <- input$schedule_choices
-      weather <- "BosTMY2"
-      ctm <- "mactm_pm"
+      species       <- input$species_choices
+      sourcessinks  <- input$sourcesink_choices
+      schedules     <- input$schedule_choices
+      weather       <- "BosTMY2"
+      ctm           <- "mactm_pm"
       
-      all_opts <- expand.grid(filters, 
+      all_opts <- expand.grid(prj,
+                              filters, 
                               flow_elements, 
                               species,
                               sourcessinks,
@@ -299,7 +301,7 @@ server <- function(input, output, session) {
                               ctm,
                               stringsAsFactors = F)
       
-      names(all_opts) <- c('filters', 'flow_elements', 'species',
+      names(all_opts) <- c('prj','filters', 'flow_elements', 'species',
                            'sourcessinks', 'schedules', 'weather', 'ctm')
       
       for(j in 1:ncol(all_opts)) {
