@@ -6,3 +6,8 @@
 
 # other things that I want to add 
 * Urban / rural
+
+#  Kate's list
+* make clearer error messages for post-processing file grab
+* Make path description for first box clearer
+

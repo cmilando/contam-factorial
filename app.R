@@ -75,11 +75,8 @@ ui <- fluidPage(
               "Post-processing files:", 
               selected = NULL,
               choices = c(
-                "1x1" = "1x1",
-                "1x2" = "1x2",
-                "1x3" = "1x3",
-                "2x2" = "2x2",
-                "3x2" = "3x2"
+                "r-x1y1z1" = "r-x1y1z1",
+                "r-x1y2z2" = "r-x1y2z2"
               )),
   hr(),
 
@@ -162,8 +159,8 @@ server <- function(input, output, session) {
       message = "Valid post-processing opts required",
       test = function(val) {
         val != "" & 
-          file.exists(file.path(input$out_dir, "_aux", 
-                                paste0("inputs_", val, ".txt"))) & 
+          # file.exists(file.path(input$out_dir, "_aux", 
+          #                       paste0("inputs_", val, ".txt"))) & 
           
           file.exists(file.path(input$out_dir, "_aux", 
                                 paste0("simopts_", val, ".txt"))) & 
