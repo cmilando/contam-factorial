@@ -76,7 +76,25 @@ ui <- fluidPage(
               selected = NULL,
               choices = c(
                 "r-x1y1z1" = "r-x1y1z1",
-                "r-x1y2z2" = "r-x1y2z2"
+                "r-x1y1z2" = "r-x1y1z2",
+                "r-x1y1z3" = "r-x1y1z3",
+                "r-x1y1z5" = "r-x1y1z5",
+                "r-x1y2z1" = "r-x1y2z1",
+                "r-x1y2z2" = "r-x1y2z2",
+                "r-x1y2z3" = "r-x1y2z3",
+                "r-x1y2z5" = "r-x1y2z5",
+                "r-x2y2z1" = "r-x2y2z1",
+                "r-x2y2z2" = "r-x2y2z2",
+                "r-x2y2z3" = "r-x2y2z3",
+                "r-x2y2z5" = "r-x2y2z5",
+                "r-x1y3z1" = "r-x1y3z1",
+                "r-x1y3z2" = "r-x1y3z2",
+                "r-x1y3z3" = "r-x1y3z3",
+                "r-x1y3z5" = "r-x1y3z5",
+                "r-x2y3z1" = "r-x2y3z1",
+                "r-x2y3z2" = "r-x2y3z2",
+                "r-x2y3z3" = "r-x2y3z3",
+                "r-x2y3z5" = "r-x2y3z5"
               )),
   hr(),
 
